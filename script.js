@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // form -> AJAX -> Formspree (improved: uses form.action and FormData)
+  // form -> AJAX -> Formspree (uses form.action and FormData, with diagnostics and fallback)
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (form) {
@@ -145,32 +145,40 @@ document.addEventListener('DOMContentLoaded', () => {
       if (status) { status.textContent = 'Odesílám…'; status.style.color = ''; }
 
       // use the form's action so HTML/JS stay in sync
-      const endpoint = form.getAttribute('action') || 'https://formspree.io/f/xeovjpow';
+      const endpoint = form.getAttribute('action') || 'https://formspree.io/f/xeovjpov';
+      console.log('[form] sending to', endpoint);
 
       try {
         const formData = new FormData(form);
 
         const res = await fetch(endpoint, {
           method: 'POST',
-          headers: {
-            'Accept': 'application/json' // ask Formspree to return JSON
-          },
+          headers: { 'Accept': 'application/json' },
           body: formData
         });
 
-        const data = await res.json().catch(() => ({}));
+        // read raw text for robust diagnostics, then try parse JSON
+        const text = await res.text().catch(() => '');
+        let data = {};
+        try { data = text ? JSON.parse(text) : {}; } catch (err) { /* not JSON */ }
+
+        console.log('[form] status', res.status, 'response:', text);
 
         if (res.ok) {
           if (status) { status.textContent = 'Děkuji! Zpráva byla odeslána.'; status.style.color = 'green'; }
           form.reset();
         } else {
-          // Formspree commonly returns { "error": "Form not found" } for bad endpoints
-          const errMsg = data?.error || data?.message || (data?.errors && data.errors.map(i => i.message).join(', ')) || `Chyba při odesílání (status ${res.status}).`;
+          const errMsg = data?.error || data?.message || text || `Chyba při odesílání (status ${res.status}).`;
           if (status) { status.textContent = errMsg; status.style.color = 'tomato'; }
+          if (res.status === 404) console.warn('[form] Form not found — zkontroluj action URL / Formspree ID');
         }
       } catch (err) {
-        console.error('Form submit error', err);
-        if (status) { status.textContent = 'Chyba sítě. Zkus to později.'; status.style.color = 'tomato'; }
+        console.error('[form] fetch error', err);
+        if (status) { status.textContent = 'Chyba sítě. Zkus to později nebo se provede nativní odeslání.'; status.style.color = 'tomato'; }
+        // fallback: try native submit after short delay (in case fetch blocked)
+        setTimeout(() => {
+          try { form.submit(); } catch (e) { /* ignore */ }
+        }, 600);
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }
