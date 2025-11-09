@@ -1,4 +1,5 @@
 :root{
+  /* základní barvy / tokeny */
   --bg: #ffffff;
   --card: #ffffff;
   --text: #0f172a;
@@ -9,45 +10,95 @@
   --shadow: 0 6px 18px rgba(15,23,42,0.08);
   --max-width: 1100px;
   --gap: 1.25rem;
+  --project-card-bg: #ffffff;
 
-  --header-bg: rgba(245, 244, 244, 0.85);
+  /* header */
+  --header-bg: rgba(245, 244, 244, 0.95);
   --header-h: 72px; /* fallback */
-  --about-bg: #f7f7f8;      /* světlé pozadí sekce "O mně" */
-  --about-text: #0f172a;    /* barva textu v sekci */
+
+  /* about card (special) */
+  --about-bg: #fafafb;
+  --about-text: #0f172a;
+  --about-card-bg: #ffffff;
+  --about-card-border: rgba(15,23,42,0.04);
+
+  /* projekty / sekce alt */
+  --projects-bg: #ffffff;
+
+  /* Kontakt - přizpůsobitelné proměnné */
+  --contact-bg: transparent;               /* pozadí celé sekce (full‑bleed) */
+  --contact-text: var(--text);             /* barva textu v sekci */
+  --contact-muted: var(--muted);
+
+  --contact-card-bg: #ffffff;
+  --contact-card-border: rgba(15,23,42,0.04);
+  --contact-card-radius: 12px;
+  --contact-card-padding: 28px;
+  --contact-card-max-width: 980px;
+  --contact-card-shadow: 0 8px 24px rgba(2,6,23,0.06);
+
+  --contact-input-bg: #ffffff;
+  --contact-input-border: #e6eaf0;
+  --contact-input-text: var(--text);
+  --contact-input-placeholder: #94a3b8;
+  --contact-input-radius: 8px;
+  --contact-input-focus-border: rgba(37,99,235,0.9);
+  --contact-input-focus-shadow: 0 6px 18px rgba(37,99,235,0.08);
+
+  --contact-button-bg: var(--accent);
+  --contact-button-color: #ffffff;
+  --contact-button-border-radius: 10px;
+  --contact-button-padding: 8px 16px;
+  --contact-button-hover-bg: #1e4ed8;
+  --contact-button-hover-color: #ffffff;
+
+  --contact-link-color: var(--accent);
+  --contact-info-bg: transparent;
+
+  --contact-grid-gap: var(--gap);
+
+  /* Footer variables */
+  --footer-bg: transparent;                /* pozadí patičky (full‑bleed) */
+  --footer-text: var(--muted);             /* barva textu v patičce */
+  --footer-border: rgba(15,23,42,0.04);    /* horní oddělovací čára */
 
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* ensure anchors and native scroll behave */
+/* jemný fallback pro kotvy (native scroll) */
 html {
   scroll-behavior: smooth;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
+/* reset / základ */
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.5;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
 
+/* kontejner */
 .container{
   width:90%;
   max-width:var(--max-width);
   margin:0 auto;
 }
 
-/* Header - fixed (always visible) */
+/* ======================
+   Header (fixed)
+   ====================== */
 .site-header{
-  background:var(--header-bg);
-  position: fixed; /* pevně nahoře, aby nikdy nezmizel */
-  top:0;
-  left:0;
-  right:0;
-  z-index:9999; /* nad vším ostatním */
+  background: var(--header-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(15,23,42,0.04);
@@ -65,39 +116,40 @@ body{
   text-decoration:none;
   font-size:1.05rem;
 }
-.nav{
-  display:flex;
-  gap:1rem;
-}
+
+/* navigace */
+.nav{ display:flex; gap:1rem; }
 .nav a{
   color:var(--muted);
   text-decoration:none;
   padding:6px 8px;
   border-radius:8px;
 }
-.nav a:hover{color:var(--text); background:rgba(37,99,235,0.06)}
+.nav a:hover{ color:var(--text); background: rgba(37,99,235,0.06); }
 
-.header-controls{display:flex; gap:0.5rem; align-items:center}
-.nav-toggle{display:none; background:transparent; border:0; font-size:1.2rem}
-#theme-toggle{background:transparent; border:0; font-size:1.1rem}
+/* header controls */
+.header-controls{ display:flex; gap:0.5rem; align-items:center; }
+.nav-toggle{ display:none; background:transparent; border:0; font-size:1.2rem; }
+#theme-toggle{ background:transparent; border:0; font-size:1.1rem; }
 
-/* Theme toggle basics */
+/* Theme toggle — only one icon visible at a time */
 .theme-toggle {
-  width:64px;
-  height:34px;
-  padding:4px;
-  border-radius:999px;
+  width: 64px;
+  height: 34px;
+  padding: 4px;
+  border-radius: 999px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
   transition: background .25s ease, border-color .25s ease, box-shadow .15s ease;
-  position:relative;
 }
-.theme-toggle:focus{ outline: none; box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+
+/* knob visual */
 .theme-toggle .knob{
   width:26px;
   height:26px;
@@ -107,160 +159,493 @@ body{
   align-items:center;
   justify-content:center;
   box-shadow: 0 6px 16px rgba(2,6,23,0.12);
-  position:relative;
+  transition: transform .18s ease;
 }
+
+/* icons: default hidden, show only the sun in light mode */
 .theme-toggle .icon{
   position:absolute;
   width:14px;
   height:14px;
   left:50%;
   top:50%;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(.9);
   transition: opacity .22s ease, transform .22s ease;
   color: currentColor;
-  opacity:0;
+  opacity: 0;
+  pointer-events: none;
 }
-.theme-toggle .icon.sun{ opacity:1; transform: translate(-50%, -50%) scale(1); }
-.theme-toggle .icon.moon{ opacity:0; transform: translate(-50%, -50%) scale(.8); }
-.dark .theme-toggle .icon.sun{ opacity:0; transform: translate(-50%, -50%) scale(.8); }
-.dark .theme-toggle .icon.moon{ opacity:1; transform: translate(-50%, -50%) scale(1); }
-.dark .theme-toggle .knob{ background: linear-gradient(180deg,#0f1724,#0b1220); color:#e6eef6; box-shadow: 0 10px 30px rgba(2,6,23,0.6); }
 
-/* Main offset - bude přepsáno inline JS podle skutečné výšky headeru */
+/* explicit: sun visible by default, moon hidden */
+.theme-toggle .icon.sun{ opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.theme-toggle .icon.moon{ opacity: 0; transform: translate(-50%, -50%) scale(.8); }
+
+/* in dark mode swap visibility */
+.dark .theme-toggle .icon.sun{ opacity: 0; transform: translate(-50%, -50%) scale(.8); }
+.dark .theme-toggle .icon.moon{ opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+/* dark knob style (optional) */
+.dark .theme-toggle .knob{
+  background: linear-gradient(180deg,#0f1724,#0b1220);
+  color:#e6eef6;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+
+/* hlavní offset (JS přepíše inline při načtení) */
 main {
   padding-top: var(--header-h);
   transition: padding-top .12s linear;
 }
 
-/* Hero */
+/* ======================
+   Hero
+   ====================== */
 .hero{
-  min-height: calc(100vh - var(--header-h)); /* zabere celé okno pod headerem */
-  display: flex;
-  align-items: center;   /* vertikální centrování obsahu */
+  min-height: calc(100vh - var(--header-h));
+  display:flex;
+  align-items:center;
   padding-top: 0;
   padding-bottom: 0;
   background: var(--bg);
 }
-
-/* centrální vnitřní kontejner: ohraničí šířku a rozdělí na levý text a pravý avatar */
 .hero-inner{
   width:100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 420px; /* širší pravý sloupec pro větší kruh */
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: 1fr 420px;
   gap: var(--gap);
-  align-items: center;
+  align-items:center;
 }
-
-/* text zůstane vlevo a může mít větší šířku */
-.hero-text { padding-right: 12px; }
+.hero-text{
+  padding-right: 12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  text-align:left;
+  min-height:100%;
+}
 .hero-text h1{ font-size:2rem; margin:0 0 8px; }
 .lead{ color:var(--muted); margin:0 0 16px; }
 .hero-cta .btn{ margin-right:8px; }
 
-/* hero-card (můžeš zachovat) */
-.hero-card{
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  text-align:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* větší kruh avataru vpravo */
+/* hero-card / avatar */
+.hero-card{ background: transparent; padding:0; border-radius:0; box-shadow:none; text-align:center; display:flex; align-items:center; justify-content:center; }
 .avatar{
   width:220px;
   height:220px;
   border-radius:50%;
   overflow:hidden;
-  box-shadow:0 30px 50px rgba(2,6,23,0.06); /* silnější jemný stín */
-  background: none;
-  margin: 0 auto; /* vystředí v rámci pravého sloupce */
+  box-shadow:0 30px 50px rgba(2,6,23,0.06);
+  background:none;
+  margin:0 auto;
   display:block;
 }
 .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-/* responsivní úpravy */
+/* responsivita pro hero */
 @media (max-width:1100px){
   .hero-inner{ grid-template-columns: 1fr 320px; }
   .avatar{ width:180px; height:180px; }
 }
 @media (max-width:900px){
-  .hero-inner{ grid-template-columns:1fr; text-align:left; padding: 40px 0; }
-  .avatar{ width:140px; height:140px; margin: 16px 0 0 0; }
+  .hero-inner{ grid-template-columns:1fr; text-align:left; padding:40px 0; }
+  .avatar{ width:140px; height:140px; margin:16px 0 0 0; }
+  .hero-text{ align-items:flex-start; text-align:left; padding-right:0; }
 }
 
-/* Sections */
-.section{padding:56px 0}
-.section.alt{background:linear-gradient(180deg, #f8fafc, #ffffff)}
-h2{margin-top:0}
+/* ======================
+   Sections
+   ====================== */
+.section{ padding:56px 0; }
+.section.alt{ background: var(--projects-bg); transition: background .18s ease; }
+h2{ margin-top:0; }
 
+/* ======================
+   About (card)
+   ====================== */
 #about{
   background: var(--about-bg);
   color: var(--about-text);
   transition: background .18s ease, color .18s ease;
-  /* volitelně padding nebo border-radius pokud chceš "card" vzhled */
-  /* padding: 56px 0; */
 }
-#about a { color: var(--accent); } /* odkazy v about zůstanou accent */
-/* About/grid */
-.about-grid{display:grid; grid-template-columns:1fr 300px; gap:var(--gap); align-items:start}
-.skill{margin:8px 0; color:var(--muted)}
+
+/* Card-style wrapper — očekáváme: <section id="about"><div class="container">...</div></section> */
+#about .container {
+  background: var(--about-card-bg);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--about-card-border);
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+/* menší screens — menší padding v cardu */
+@media (max-width:900px){
+  #about .container { padding:18px; }
+}
+
+/* odkazy v about */
+#about a { color: var(--accent); }
+
+/* about-grid */
+.about-grid{ display:grid; grid-template-columns:1fr 300px; gap:var(--gap); align-items:start; }
+@media (max-width:900px){
+  .about-grid{ grid-template-columns:1fr; }
+}
+
+/* skill vizual */
+.skill{ margin:8px 0; color:var(--muted); }
 .skill-level{ display:inline-block; width:60%; height:8px; background:#e6eefc; border-radius:999px; position:relative; vertical-align:middle; margin-left:8px; }
 .skill-level::after{ content:''; position:absolute; left:0; top:0; bottom:0; width:var(--lvl,50%); background:var(--accent); border-radius:999px; }
 
-/* Projects */
+/* ======================
+   Projects
+   ====================== */
 .projects-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--gap); }
-.project-card{ background:var(--card); padding:16px; border-radius:12px; box-shadow:var(--shadow); }
+.project-card{
+  background: var(--project-card-bg);
+  padding:16px;
+  border-radius:12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--project-card-border); 
+}
 
-/* Contact */
-.contact-grid{ display:grid; grid-template-columns:1fr 280px; gap:var(--gap); }
-.contact-form input, .contact-form textarea{ width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6eaf0; font:inherit; color:var(--text); background:white; }
-.form-actions{ display:flex; gap:8px; margin-top:8px; }
-.form-status{ margin-top:8px; color:var(--muted); }
+/* ======================
+   Contact (customizable)
+   ====================== */
+/* full-bleed sekce */
+#contact {
+  background: var(--contact-bg);
+  color: var(--contact-text);
+  transition: background .18s ease, color .18s ease;
+  padding: 56px 0;
+}
 
-/* Buttons */
+/* card uvnitř containeru */
+#contact .container {
+  background: var(--contact-card-bg);
+  border-radius: var(--contact-card-radius);
+  padding: var(--contact-card-padding);
+  box-shadow: var(--contact-card-shadow);
+  border: 1px solid var(--contact-card-border);
+  max-width: var(--contact-card-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+/* grid a odstavce */
+.contact-grid{
+  display:grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--contact-grid-gap);
+  align-items:start;
+}
+
+/* form - pole */
+.contact-form input,
+.contact-form textarea {
+  width:100%;
+  padding:10px 12px;
+  border-radius: var(--contact-input-radius);
+  border: 1px solid var(--contact-input-border);
+  background: var(--contact-input-bg);
+  color: var(--contact-input-text);
+  font:inherit;
+  transition: border-color .12s ease, box-shadow .12s ease, background .12s ease;
+  outline: none;
+  box-shadow: none;
+}
+
+/* placeholder color */
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--contact-input-placeholder);
+}
+
+/* focus styling */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--contact-input-focus-border);
+  box-shadow: var(--contact-input-focus-shadow);
+}
+
+/* buttons */
+.contact-form .btn {
+  background: var(--contact-button-bg);
+  color: var(--contact-button-color);
+  padding: var(--contact-button-padding);
+  border-radius: var(--contact-button-border-radius);
+  border: 0;
+  cursor: pointer;
+  transition: background .12s ease, transform .08s ease;
+}
+.contact-form .btn:hover,
+.contact-form .btn:focus {
+  background: var(--contact-button-hover-bg);
+  color: var(--contact-button-hover-color);
+  transform: translateY(-1px);
+}
+
+/* outline/disabled states */
+.contact-form .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* malé akce (reset apod.) */
+.contact-form .btn.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(15,23,42,0.06);
+  color: var(--contact-text);
+}
+
+/* stavový text */
+.form-status {
+  margin-top: 8px;
+  color: var(--contact-muted);
+}
+
+/* contact-info (postranní panel) */
+.contact-info {
+  background: var(--contact-info-bg);
+  color: var(--contact-text);
+}
+.contact-info a { color: var(--contact-link-color); text-decoration: none; }
+.contact-info a:hover { text-decoration: underline; }
+
+/* socials */
+.socials{ display:flex; gap:10px; margin-top:8px; }
+.socials a{ color: var(--contact-link-color); padding:6px 8px; border-radius:8px; text-decoration:none; }
+
+/* responsive: stack */
+@media (max-width:900px){
+  .contact-grid{ grid-template-columns:1fr; }
+  #contact .container { padding: 20px; }
+}
+
+/* utility: small card variant (if you want the form narrower) */
+#contact .container.small {
+  max-width: 760px;
+}
+
+/* ======================
+   Buttons
+   ====================== */
 .btn{ display:inline-block; background:var(--accent); color:white; padding:8px 14px; border-radius:10px; text-decoration:none; border:0; cursor:pointer; }
 .btn-outline{ background:transparent; border:1px solid rgba(15,23,42,0.06); color:var(--text); }
 
-/* Footer */
-.site-footer{ padding:20px 0; color:var(--muted); }
+/* ======================
+   Footer (centered copyright)
+   ====================== */
+.site-footer{
+  padding:20px 0;
+  color: var(--footer-text);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
 .footer-inner{
   display:flex;
   justify-content:center;
   align-items:center;
   gap:12px;
+  width:100%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:0 5%;
 }
 .site-footer p{
   margin:0;
   width:100%;
   text-align:center;
+  color:var(--footer-text);
+  font-size:0.95rem;
 }
 
-/* Small screens */
-@media (max-width:900px){
-  .hero-inner{ grid-template-columns:1fr; text-align:left; }
-  .about-grid{ grid-template-columns:1fr; }
-  .contact-grid{ grid-template-columns:1fr; }
-  .header-controls #nav-toggle{ display:block; }
-  .nav{ display:none; position:absolute; right:16px; top:64px; background:var(--card); padding:12px; border-radius:10px; box-shadow:var(--shadow); }
-  .nav.open{ display:flex; flex-direction:column; gap:8px; }
-  .avatar{ width:140px; height:140px; }
+/* small screens: ensure footer stacks nicely */
+@media (max-width:700px){
+  .footer-inner{ flex-direction:column; gap:8px; text-align:center; }
 }
 
+/* ======================
+   Misc / utilities
+   ====================== */
+.section + .section{ margin-top:0; }
+
+/* ======================
+   Dark mode overrides
+   ====================== */
 .dark{
-  --bg:#000000de;
-  --card:#071826;
-  --text:#e6eef6;
-  --muted:#9fb0c8;
-  --accent:#60a5fa;
-  --glass:rgba(255,255,255,0.04);
+  --bg: #000000de;
+  --card: #071826;
+  --text: #e6eef6;
+  --muted: #ffffff;
+  --accent: #60a5fa;
+  --glass: rgba(255,255,255,0.04);
   --shadow: 0 8px 30px rgba(2,6,23,0.6);
-  --header-bg: rgba(29, 29, 29, 0.836);
-  --about-bg: rgba(17, 8, 46, 0.6); /* tmavé pozadí pro about */
+
+  --header-bg: rgba(19,19,19,0.92);
+  --about-bg: rgb(12,12,12);
   --about-text: #ffffff;
+
+  /* projekty v dark modu */
+  --projects-bg: rgb(12,12,12);
+  --project-card-bg: #000000;
+  /* about card dark */
+  --about-card-bg: #000000;
+  --about-card-border: rgba(255,255,255,0.04);
+
+  /* Contact dark overrides */
+  --contact-bg: rgb(0, 0, 0);
+  --contact-text: var(--text);
+  --contact-card-bg: #202020;
+  --contact-card-border: rgba(255,255,255,0.04);
+  --contact-card-shadow: 0 10px 30px rgba(2,6,23,0.6);
+
+  --contact-input-bg: rgba(255,255,255,0.02);
+  --contact-input-border: rgba(255,255,255,0.06);
+  --contact-input-text: var(--text);
+  --contact-input-placeholder: rgba(255,255,255,0.6);
+  --contact-input-focus-border: rgba(96,165,250,0.95);
+  --contact-input-focus-shadow: 0 6px 18px rgba(96,165,250,0.08);
+
+  --contact-button-bg: var(--accent);
+  --contact-button-hover-bg: #000000;
+  --contact-button-color: #e6eef6;
+
+  /* Footer dark overrides */
+  --footer-bg: #000000;
+  --footer-text: #9fb0c8;
+  --footer-border: rgba(255,255,255,0.04);
+}
+
+/* ===== FORCE default cursor site-wide, allow text-cursor only in real inputs =====
+   Put this block at the VERY END of your styles.css
+   This is intentionally strong (uses !important) to override other rules.
+   ===== */
+html, body, html * {
+  cursor: default !important;               /* vždy šipka */
+  -webkit-user-select: none !important;     /* zabrání označení textu */
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Povolit zadávání / textový kurzor a výběr pouze v reálných polích pro psaní */
+input,
+textarea,
+select,
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+[contenteditable="true"] {
+  cursor: text !important;                  /* I‑beam tam, kde se píše */
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Povolit pointer (ruku) pro odkazy a tlačítka tak, aby byly jasné jako klikatelné */
+a,
+a * ,
+button,
+button * ,
+.summary,
+[role="button"],
+[role="link"] {
+  cursor: pointer !important;
+  -webkit-user-select: text !important;     /* umožnit kopírování textu v odkazech */
+  user-select: text !important;
+}
+
+/* Pokud máš nějaké speciální části, kde chceš povolit výběr (např. footer nebo code),
+   přidej jim třídu .allow-select a budou mít povolený výběr */
+.allow-select,
+.allow-select * {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  cursor: default !important;
+}
+
+/* Přístupnost: zachovat focus outline pro keyboard uživatele */
+:focus {
+  outline: auto 2px Highlight !important;
+}
+:focus:not(:focus-visible) {
+  /* skrýt pouze nepřirozené outline pro myš, ale zachovat pro keyboard */
+  outline: none !important;
+}
+/* Social icons (fit to your existing token system) */
+.contact-info .socials {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/* unify social link appearance */
+.contact-info .social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--contact-link-color);
+  text-decoration: none;
+  padding: 6px;
+  border-radius: 8px;
+  transition: color .15s ease, background .12s ease, transform .06s ease;
+}
+
+/* size and color for SVG icons (inherit color) */
+.contact-info .social-link svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+/* hover/focus states */
+.contact-info .social-link:hover,
+.contact-info .social-link:focus {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* visible focus for keyboard users */
+.contact-info .social-link:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* hide visible text but keep it for screen readers (if you want only icons visible) */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* optional: spacing on mobile */
+@media (max-width:700px){
+  .contact-info .socials { gap: 10px; }
 }
