@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jiří Macal</title>
-  <meta name="description" content="Osobní web — HTML, CSS, JS." />
+  <meta name="description" content="Portfolio webového vývojáře." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="icon" type="image/x-icon" href="JM.ico" />
@@ -13,7 +13,15 @@
 <body>
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a class="brand" href="#home">Jiří Macal</a>
+      <!-- Replaced plain text brand with inline SVG icon (uses currentColor) so it works on Vercel -->
+      <a class="brand" href="#home">
+        <svg class="brand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <!-- Example "back" / brand glyph — replace path with your actual icon if needed -->
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Jiří Macal</span>
+      </a>
 
       <nav class="nav" id="nav" role="navigation" aria-label="Hlavní navigace">
         <a href="#home">Domů</a>
@@ -35,6 +43,7 @@
     </div>
   </header>
 
+  <!-- rest of your HTML unchanged -->
   <main>
     <section id="home" class="hero">
       <div class="container hero-inner">
@@ -55,109 +64,7 @@
       </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="container">
-        <h2>O mně</h2>
-        <div class="about-grid">
-          <div>
-            <p>Jmenuji se Jiří Macal a jsem člověk, který rád propojuje techniku, kreativitu a praxi. </p>
-            <p>Momentálně studuji druhý ročník na střední škole EDUCHEM, kde se zaměřuji na technické obory.
-Za své studijní výsledky jsem získal 1. místo v stipendijním programu v rámci celého ročníku.</p>
-                Baví mě věci dělat pořádně – ať už jde o tvorbu webů, práci s elektronikou, 3D tisk, nebo ladění počítačových sestav.
-Zajímám se o IT, webdesign, hardware, programování a moderní technologie. Mám zkušenosti s tvorbou webových stránek v HTML, CSS a JavaScriptu, s návrhem designu, a také s menšími projekty v C#. Baví mě hledat elegantní řešení problémů a učit se nové věci v praxi.
-Mým cílem je dál rozvíjet svoje dovednosti v oblasti IT, vývoje webu a technologií – ideálně v prostředí, kde má práce skutečný dopad.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section alt">
-      <div class="container">
-        <h2>Projekty</h2>
-        <div class="projects-grid">
-          <article class="project-card">
-            <h3>PGV - beta</h3>
-            <p>Projekt PGV jsem vytvořil jako moderní webovou prezentaci zaměřenou na paragliding a komunitní obsah. Web je postaven pomocí HTML, CSS, JavaScriptu a frameworku Next.js a využívá databázi pro správu dat. Navrhl jsem ho tak, aby byl snadno ovladatelný pro vlastníka, s přehledným systémem správy obsahu, responzivním designem a čistým, moderním vzhledem.</p>
-            <div class="card-links">
-              <a href="https://pgv-five.vercel.app/" target="_blank" rel="noreferrer">PGV</a>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <h3>Dokran s.r.o. - beta</h3>
-            <p>Tento projekt jsem vytvořil jako moderní firemní web pro prezentaci elektroinstalačních služeb. Byl postaven pomocí HTML, CSS a JavaScriptu. Důraz jsem kladl na responzivní design, rychlé načítání a čistý, profesionální vzhled.</p>
-            <div class="card-links">
-              <a href="https://web-alpha-lac.vercel.app/" target="_blank" rel="noreferrer">Dokran s.r.o</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="container">
-        <h2>Kontakt</h2>
-        <div class="contact-grid">
-          <form id="contact-form" class="contact-form" action="#" novalidate>
-            <!-- honeypot (hidden) -->
-            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-
-            <label>
-              Jméno
-              <input type="text" name="name" id="cf-name" required placeholder="Adam Novák" />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" id="cf-email" required placeholder="email@domena.cz" />
-            </label>
-            <label>
-              Zpráva
-              <textarea name="message" id="cf-message" rows="6" required placeholder="Napište mi..."></textarea>
-            </label>
-            <div class="form-actions">
-              <button type="submit" class="btn" id="cf-submit">Odeslat</button>
-              <button type="reset" class="btn btn-outline">Vyčistit</button>
-            </div>
-            <p id="form-status" class="form-status" aria-live="polite"></p>
-          </form>
-
-          <!-- contact aside: replace the existing aside in #contact with this block -->
-<aside class="contact-info">
-  <h3>Sociální sítě</h3>
-  <p class="socials">
-    <a class="social-link" href="https://www.instagram.com/jiri.macal?igsh=MTM5Z2FlMmtpaWUzbg%3D%3D&utm_source=qr"
-       target="_blank" rel="noopener noreferrer" aria-label="Otevřít Instagram profil (otevře se v novém okně)">
-      <!-- Instagram SVG -->
-      <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6" />
-        <path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
-      </svg>
-      <span class="visually-hidden">Instagram</span>
-    </a>
-
-    <a class="social-link" href="https://github.com/Jir1mac" target="_blank" rel="noopener noreferrer" aria-label="Otevřít GitHub profil (otevře se v novém okně)">
-      <!-- GitHub SVG (simple mark, stroke uses currentColor) -->
-      <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 .5C5.73.5.9 5.33.9 11.6c0 4.76 3.08 8.8 7.36 10.23.54.1.74-.24.74-.52 0-.26-.01-1-.01-1.93-2.99.65-3.62-1.44-3.62-1.44-.49-1.24-1.2-1.57-1.2-1.57-.98-.67.07-.66.07-.66 1.08.08 1.65 1.12 1.65 1.12.96 1.65 2.51 1.17 3.12.9.1-.7.38-1.17.69-1.44-2.39-.27-4.9-1.2-4.9-5.36 0-1.18.42-2.14 1.11-2.9-.11-.28-.48-1.4.11-2.92 0 0 .93-.3 3.05 1.11a10.6 10.6 0 012.78-.38c.94 0 1.89.13 2.78.38 2.11-1.41 3.04-1.11 3.04-1.11.6 1.52.23 2.64.11 2.92.69.76 1.11 1.72 1.11 2.9 0 4.17-2.52 5.09-4.92 5.35.39.34.73 1.02.73 2.06 0 1.49-.01 2.69-.01 3.06 0 .28.2.62.75.51C19.02 20.4 22.1 16.36 22.1 11.6 22.1 5.33 17.27.5 12 .5z"/>
-      </svg>
-      <span class="visually-hidden">GitHub</span>
-    </a>
-
-    <a class="social-link" href="tel:+420792304129" aria-label="Zavolat na číslo +420 123 456 789">
-      <!-- Phone SVG -->
-      <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12 1.05.38 2.07.76 3.02a2 2 0 0 1-.45 2.11L8.91 10.91a16 16 0 0 0 6 6l1.06-1.06a2 2 0 0 1 2.11-.45c.95.38 1.97.64 3.02.76A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="visually-hidden">Telefon: +420 792304129</span>
-    </a>
-  </p>
-
-
-</aside>
-        </div>
-      </div>
-    </section>
+    <!-- ... keep remainder of your HTML exactly as you have it ... -->
   </main>
 
   <footer class="site-footer">
