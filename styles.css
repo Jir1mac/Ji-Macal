@@ -649,3 +649,78 @@ button * ,
 @media (max-width:700px){
   .contact-info .socials { gap: 10px; }
 }
+
+/* ======================
+   Hamburger / mobile nav styles
+   (added to the file as requested)
+   ====================== */
+@media (max-width:900px) {
+
+  /* show nav-toggle button on mobile */
+  .nav-toggle {
+    display: inline-block;
+    padding: 8px 10px;
+    font-size: 1.1rem;
+    line-height: 1;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--text);
+    border-radius: 8px;
+  }
+
+  /* nav becomes a dropdown under the header */
+  .site-header .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--header-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transform-origin: top center;
+    transform: translateY(-6px) scaleY(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .18s ease, opacity .12s ease;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+    z-index: 9998;
+    padding: 8px;
+    border-top: 1px solid rgba(15,23,42,0.04);
+  }
+
+  /* visible when open (JS toggles .open on nav) */
+  .site-header .nav.open {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* nav links stacked full width */
+  .site-header .nav a {
+    display: block;
+    padding: 12px 16px;
+    color: var(--text);
+    background: transparent;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  .site-header .nav a:hover,
+  .site-header .nav a:focus {
+    background: rgba(37,99,235,0.06);
+    color: var(--text);
+    outline: none;
+  }
+
+  /* ensure header-controls (toggle + theme) stay visible on the right */
+  .header-controls { gap: 6px; align-items:center; }
+
+  /* reduce nav gap for tight screens */
+  .site-header .nav { gap: 6px; }
+
+  /* make the brand and toggle inline and aligned */
+  .brand { display: inline-block; }
+}
