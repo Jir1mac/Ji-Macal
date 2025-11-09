@@ -12,7 +12,7 @@ Jak použít:
 3. Otevři adresář ve VS Code a spusť soubor index.html v prohlížeči (doporučeno rozšíření "Live Server").
 4. Přizpůsob texty (jméno, bio, odkazy na projekty a sociální sítě). V HTML najdeš snadno editovatelná místa.
 5. Pokud chceš formulář skutečně odesílat, nahraď handler v script.js voláním na svůj backend / API nebo použij službu typu Formspree.
-
+ 
 Tipy pro úpravy:
 - Změna barev: uprav CSS proměnné v :root (styles.css).
 - Přidání projektů: zkopíruj jednu kartu .project-card a uprav obsah.
