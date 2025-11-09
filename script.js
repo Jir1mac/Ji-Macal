@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // init aria
     navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
 
-    navToggle.addEventListener('click', () => {
+    navToggle.addEventListener('click', (ev) => {
+      ev.stopPropagation(); // prevent document click from immediately closing
       nav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
       // recalc after menu open/close
@@ -79,6 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
           setHeaderHeightCSSVar();
         }
       }, 60);
+    });
+
+    // close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+          setHeaderHeightCSSVar();
+        }
+      }
     });
   }
 
