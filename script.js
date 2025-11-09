@@ -16,7 +16,6 @@ function setHeaderHeightCSSVar() {
   if (!header) return 0;
   const h = Math.ceil(header.getBoundingClientRect().height);
   document.documentElement.style.setProperty('--header-h', `${h}px`);
-  // inline padding pro main, aby obsah nikdy nešel pod fixed header
   if (main) main.style.paddingTop = `${h}px`;
   return h;
 }
@@ -37,28 +36,22 @@ function updateThemeButton() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // year
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // initial header measurement
   setHeaderHeightCSSVar();
 
-  // nav + mobile toggle
   const nav = document.getElementById('nav');
   const navToggle = document.getElementById('nav-toggle');
   if (nav && navToggle) {
-    // init aria
     navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
 
     navToggle.addEventListener('click', () => {
       nav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
-      // recalc after menu open/close
       setTimeout(() => setHeaderHeightCSSVar(), 160);
     });
 
-    // close on outside click
     document.addEventListener('click', (e) => {
       if (!nav.classList.contains('open')) return;
       const t = e.target;
@@ -68,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => setHeaderHeightCSSVar(), 160);
     });
 
-    // when clicking a link inside nav, let native anchor run, but close menu
     nav.addEventListener('click', (e) => {
       const a = e.target.closest && e.target.closest('a[href^="#"]');
       if (!a) return;
@@ -81,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 60);
     });
 
-    // close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Esc') {
         if (nav.classList.contains('open')) {
@@ -93,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // theme toggle
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     applyStoredTheme();
@@ -110,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // form -> AJAX -> Formspree (improved: uses form.action and FormData)
+  // form -> AJAX -> Formspree (uses form.action and FormData)
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (form) {
@@ -122,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = document.getElementById('cf-email')?.value.trim() || '';
       const message = document.getElementById('cf-message')?.value.trim() || '';
 
-      // basic validation
       if (!name || !email || !message) {
         if (status) { status.textContent = 'Prosím vyplňte všechna pole.'; status.style.color = 'tomato'; }
         return;
@@ -133,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // honeypot check (anti-spam)
       const honey = form.querySelector('input[name="_honey"]')?.value;
       if (honey) {
         if (status) { status.textContent = 'Spam detekován.'; status.style.color = 'tomato'; }
@@ -144,17 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
       if (status) { status.textContent = 'Odesílám…'; status.style.color = ''; }
 
-      // use the form's action so HTML/JS stay in sync
-      const endpoint = form.getAttribute('action') || 'https://formspree.io/f/xeovjpow';
+      const endpoint = form.getAttribute('action') || 'https://formspree.io/f/xeovjpov';
 
       try {
         const formData = new FormData(form);
 
         const res = await fetch(endpoint, {
           method: 'POST',
-          headers: {
-            'Accept': 'application/json' // ask Formspree to return JSON
-          },
+          headers: { 'Accept': 'application/json' },
           body: formData
         });
 
@@ -164,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if (status) { status.textContent = 'Děkuji! Zpráva byla odeslána.'; status.style.color = 'green'; }
           form.reset();
         } else {
-          // Formspree commonly returns { "error": "Form not found" } for bad endpoints
           const errMsg = data?.error || data?.message || (data?.errors && data.errors.map(i => i.message).join(', ')) || `Chyba při odesílání (status ${res.status}).`;
           if (status) { status.textContent = errMsg; status.style.color = 'tomato'; }
         }
@@ -177,44 +161,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Improved delegated anchor handling to account for fixed header and mobile nav
+  // anchor handling (fixed header + focus cleanup)
   document.addEventListener('click', (e) => {
     const a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
 
-    // allow links that are programmatic/external (e.g. href="#!" or data-no-scroll) to fallthrough
     const href = a.getAttribute('href') || '';
     const hash = href.startsWith('#') ? href : null;
     if (!hash) return;
 
-    // Prevent native jump and perform offset scroll so fixed header doesn't cover target
     e.preventDefault();
 
-    // compute target position
     const target = document.querySelector(hash);
     const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || setHeaderHeightCSSVar() || 0;
-    const targetY = target
-      ? Math.round(target.getBoundingClientRect().top + window.scrollY - Math.ceil(headerH))
-      : 0;
+    const targetY = target ? Math.round(target.getBoundingClientRect().top + window.scrollY - Math.ceil(headerH)) : 0;
 
-    // helper to do scroll + cleanup
     const doScrollAndClean = () => {
       window.scrollTo({ top: Math.max(0, targetY), left: 0, behavior: 'smooth' });
-
-      // remove focus from clicked link so the cursor/outline doesn't stay "stuck"
       try { a.blur(); } catch (err) { /* ignore */ }
-
-      // update URL hash without causing another scroll
       try { history.pushState(null, '', hash); } catch (err) { location.hash = hash; }
     };
 
-    // close mobile nav if open (preserve existing behavior)
     const navEl = document.getElementById('nav');
     const navToggleEl = document.getElementById('nav-toggle');
     if (navEl && navEl.classList.contains('open')) {
       navEl.classList.remove('open');
       if (navToggleEl) navToggleEl.setAttribute('aria-expanded', 'false');
-      // wait a bit for menu close to settle (matches existing timeouts)
       setTimeout(doScrollAndClean, 80);
     } else {
       doScrollAndClean();
@@ -227,12 +199,10 @@ window.addEventListener('resize', debounce(() => setHeaderHeightCSSVar(), 160));
 
 // after load ensure header var is current; if page opened with hash, correct jump if needed
 window.addEventListener('load', () => {
-  // přepočítat hned a párkrát potom (pro fonty/obrázky)
   setHeaderHeightCSSVar();
   setTimeout(setHeaderHeightCSSVar, 60);
   setTimeout(setHeaderHeightCSSVar, 220);
 
-  // pokud bylo načteno s hashem, uprav posun jednou (auto = bez animace)
   if (location.hash) {
     setTimeout(() => {
       const target = document.querySelector(location.hash);
