@@ -51,8 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // init aria
     navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
 
-    navToggle.addEventListener('click', (ev) => {
-      ev.stopPropagation(); // prevent document click from immediately closing
+    navToggle.addEventListener('click', () => {
       nav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
       // recalc after menu open/close
@@ -111,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // form -> AJAX -> Formspree
+  // form -> AJAX -> Formspree (improved: uses form.action and FormData)
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (form) {
@@ -145,14 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
       if (status) { status.textContent = 'Odesílám…'; status.style.color = ''; }
 
-      // <-- PUT YOUR FORMSPREE ENDPOINT HERE -->
-      const endpoint = 'https://formspree.io/f/xeovjpow';
+      // use the form's action so HTML/JS stay in sync
+      const endpoint = form.getAttribute('action') || 'https://formspree.io/f/xeovjpow';
 
       try {
+        const formData = new FormData(form);
+
         const res = await fetch(endpoint, {
           method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message })
+          headers: {
+            'Accept': 'application/json' // ask Formspree to return JSON
+          },
+          body: formData
         });
 
         const data = await res.json().catch(() => ({}));
@@ -161,7 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (status) { status.textContent = 'Děkuji! Zpráva byla odeslána.'; status.style.color = 'green'; }
           form.reset();
         } else {
-          const errMsg = data.error || (data.errors && data.errors.map(i => i.message).join(', ')) || 'Chyba při odesílání.';
+          // Formspree commonly returns { "error": "Form not found" } for bad endpoints
+          const errMsg = data?.error || data?.message || (data?.errors && data.errors.map(i => i.message).join(', ')) || `Chyba při odesílání (status ${res.status}).`;
           if (status) { status.textContent = errMsg; status.style.color = 'tomato'; }
         }
       } catch (err) {
@@ -173,19 +177,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Delegate anchor clicks outside nav: we let native behavior handle scrolling.
+  // Improved delegated anchor handling to account for fixed header and mobile nav
   document.addEventListener('click', (e) => {
     const a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
-    // if mobile nav open, close it
+
+    // allow links that are programmatic/external (e.g. href="#!" or data-no-scroll) to fallthrough
+    const href = a.getAttribute('href') || '';
+    const hash = href.startsWith('#') ? href : null;
+    if (!hash) return;
+
+    // Prevent native jump and perform offset scroll so fixed header doesn't cover target
+    e.preventDefault();
+
+    // compute target position
+    const target = document.querySelector(hash);
+    const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || setHeaderHeightCSSVar() || 0;
+    const targetY = target
+      ? Math.round(target.getBoundingClientRect().top + window.scrollY - Math.ceil(headerH))
+      : 0;
+
+    // helper to do scroll + cleanup
+    const doScrollAndClean = () => {
+      window.scrollTo({ top: Math.max(0, targetY), left: 0, behavior: 'smooth' });
+
+      // remove focus from clicked link so the cursor/outline doesn't stay "stuck"
+      try { a.blur(); } catch (err) { /* ignore */ }
+
+      // update URL hash without causing another scroll
+      try { history.pushState(null, '', hash); } catch (err) { location.hash = hash; }
+    };
+
+    // close mobile nav if open (preserve existing behavior)
     const navEl = document.getElementById('nav');
     const navToggleEl = document.getElementById('nav-toggle');
     if (navEl && navEl.classList.contains('open')) {
-      setTimeout(() => {
-        navEl.classList.remove('open');
-        if (navToggleEl) navToggleEl.setAttribute('aria-expanded', 'false');
-        setHeaderHeightCSSVar();
-      }, 60);
+      navEl.classList.remove('open');
+      if (navToggleEl) navToggleEl.setAttribute('aria-expanded', 'false');
+      // wait a bit for menu close to settle (matches existing timeouts)
+      setTimeout(doScrollAndClean, 80);
+    } else {
+      doScrollAndClean();
     }
   });
 });
