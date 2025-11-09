@@ -1,5 +1,4 @@
-// script.js
-// Dynamické --header-h, mobilní menu, přepínač motivu, formulář.
+// Dynamické --header-h, mobilní menu, přepínač motivu, formulář AJAX -> Formspree.
 // Fixed header + JS nastavuje padding-top pro <main> podle skutečné výšky headeru.
 
 'use strict';
@@ -100,17 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // form
+  // form -> AJAX -> Formspree
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (status) status.textContent = '';
+      if (status) { status.textContent = ''; status.style.color = ''; }
+
       const name = document.getElementById('cf-name')?.value.trim() || '';
       const email = document.getElementById('cf-email')?.value.trim() || '';
       const message = document.getElementById('cf-message')?.value.trim() || '';
 
+      // basic validation
       if (!name || !email || !message) {
         if (status) { status.textContent = 'Prosím vyplňte všechna pole.'; status.style.color = 'tomato'; }
         return;
@@ -121,12 +122,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
-      submissions.push({ name, email, message, time: new Date().toISOString() });
-      localStorage.setItem('submissions', JSON.stringify(submissions));
+      // honeypot check (anti-spam)
+      const honey = form.querySelector('input[name="_honey"]')?.value;
+      if (honey) {
+        if (status) { status.textContent = 'Spam detekován.'; status.style.color = 'tomato'; }
+        return;
+      }
 
-      if (status) { status.style.color = 'green'; status.textContent = 'Děkuji! Zpráva byla odeslána (simulace).'; }
-      form.reset();
+      const submitBtn = document.getElementById('cf-submit');
+      if (submitBtn) submitBtn.disabled = true;
+      if (status) { status.textContent = 'Odesílám…'; status.style.color = ''; }
+
+      // <-- PUT YOUR FORMSPREE ENDPOINT HERE -->
+      const endpoint = 'https://formspree.io/f/xeovjpow';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          if (status) { status.textContent = 'Děkuji! Zpráva byla odeslána.'; status.style.color = 'green'; }
+          form.reset();
+        } else {
+          const errMsg = data.error || (data.errors && data.errors.map(i => i.message).join(', ')) || 'Chyba při odesílání.';
+          if (status) { status.textContent = errMsg; status.style.color = 'tomato'; }
+        }
+      } catch (err) {
+        console.error('Form submit error', err);
+        if (status) { status.textContent = 'Chyba sítě. Zkus to později.'; status.style.color = 'tomato'; }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
   }
 
