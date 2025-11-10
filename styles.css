@@ -128,7 +128,15 @@ body{
 
 /* header controls */
 .header-controls{ display:flex; gap:0.5rem; align-items:center; }
-.nav-toggle{ display:none; background:transparent; border:0; font-size:1.2rem; }
+.nav-toggle{ 
+  display:none; 
+  background:transparent; 
+  border:0; 
+  font-size:1.5rem; 
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text);
+}
 #theme-toggle{ background:transparent; border:0; font-size:1.1rem; }
 
 /* Theme toggle — only one icon visible at a time */
@@ -509,6 +517,47 @@ h2{ margin-top:0; }
 .section + .section{ margin-top:0; }
 
 /* ======================
+   Mobile Menu (Hamburger)
+   ====================== */
+@media (max-width: 768px) {
+  /* Show hamburger button on mobile */
+  .nav-toggle {
+    display: block;
+  }
+
+  /* Hide desktop navigation by default on mobile */
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--header-bg);
+    flex-direction: column;
+    padding: 16px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(15, 23, 42, 0.04);
+  }
+
+  /* Show navigation when open */
+  .nav.open {
+    display: flex;
+  }
+
+  /* Style navigation links for mobile */
+  .nav a {
+    padding: 12px 5%;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Adjust header inner padding for mobile */
+  .header-inner {
+    padding: 10px 0;
+  }
+}
+
+/* ======================
    Dark mode overrides
    ====================== */
 .dark{
@@ -554,6 +603,14 @@ h2{ margin-top:0; }
   --footer-bg: #000000;
   --footer-text: #9fb0c8;
   --footer-border: rgba(255,255,255,0.04);
+}
+
+/* Dark mode mobile menu shadow */
+@media (max-width: 768px) {
+  .dark .nav {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  }
 }
 
 /* ===== FORCE default cursor site-wide, allow text-cursor only in real inputs =====
