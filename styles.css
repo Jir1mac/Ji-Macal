@@ -11,11 +11,10 @@
   --max-width: 1100px;
   --gap: 1.25rem;
   --project-card-bg: #ffffff;
-
   /* header */
   --header-bg: rgba(245, 244, 244, 0.95);
   --header-h: 72px; /* fallback */
-
+  --avatar: black;
   /* about card (special) */
   --about-bg: #fafafb;
   --about-text: #0f172a;
@@ -200,15 +199,35 @@ main {
 /* ======================
    Hero
    ====================== */
+/* ========== HERO (fixed) - opraveno ========== */
 .hero{
+  position: relative; /* nutné pro absolutně pozicovaný .hero-bg */
   min-height: calc(100vh - var(--header-h));
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   padding-top: 0;
   padding-bottom: 0;
-  background: var(--bg);
+  background: var(--bg); /* základní barva přes celý blok */
+  overflow: hidden;
 }
+
+/* pozadí jako samostatný element uvnitř .hero (v HTML přidej <div class="hero-bg" aria-hidden="true"></div>) */
+.hero-bg{
+  position: absolute;
+  inset: 0;                     /* top:0; right:0; bottom:0; left:0; */
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("Contour Line.svg"); /* nebo "./assets/Contour Line.svg" / url("Contour%20Line.svg") */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;       /* případně contain / 120% podle potřeby */
+  opacity: 0.4;            /* průhlednost pozadí */
+}
+
+/* obsah .hero musí být nad pozadím */
 .hero-inner{
+  position: relative;
+  z-index: 1;
   width:100%;
   max-width:1200px;
   margin:0 auto;
@@ -226,23 +245,36 @@ main {
   text-align:left;
   min-height:100%;
 }
-.hero-text h1{ font-size:2rem; margin:0 0 8px; }
-.lead{ color:var(--muted); margin:0 0 16px; }
-.hero-cta .btn{ margin-right:8px; }
+
+.hero-text1{
+  font-size:1.5rem;
+  font-weight:400;
+  color:var(--text);
+  margin:0;
+}
+.hero-text2{
+  font-size:4rem;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:16px;
+  margin:0;
+  display: inline-block;
+}
+.lead{ color:var(--muted); margin:0 0 16px; 
+width: fit-content;}
+.hero-cta .btn{ margin-right:8px; 
+margin-top: 16px;}
 
 /* hero-card / avatar */
 .hero-card{ background: transparent; padding:0; border-radius:0; box-shadow:none; text-align:center; display:flex; align-items:center; justify-content:center; }
 .avatar{
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  overflow:hidden;
-  box-shadow:0 30px 50px rgba(2,6,23,0.06);
-  background:none;
-  margin:0 auto;
-  display:block;
+  width:100vw;
+  height: auto;
+  max-height: 100vh;
+  margin: 0 auto;
+  display: block;
+  color: var(--avatar);
 }
-.avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
 
 /* responsivita pro hero */
 @media (max-width:1100px){
@@ -436,7 +468,7 @@ h2{ margin-top:0; }
    Buttons
    ====================== */
 .btn{ display:inline-block; background:var(--accent); color:white; padding:8px 14px; border-radius:10px; text-decoration:none; border:0; cursor:pointer; }
-.btn-outline{ background:transparent; border:1px solid rgba(15,23,42,0.06); color:var(--text); }
+.btn-outline{ background:var(--about-bg); border:1px solid rgba(15,23,42,0.06); color:var(--text); }
 
 /* ======================
    Footer (centered copyright)
@@ -480,7 +512,7 @@ h2{ margin-top:0; }
    Dark mode overrides
    ====================== */
 .dark{
-  --bg: #000000de;
+  --bg: #0f0f0fde;
   --card: #071826;
   --text: #e6eef6;
   --muted: #ffffff;
@@ -488,6 +520,7 @@ h2{ margin-top:0; }
   --glass: rgba(255,255,255,0.04);
   --shadow: 0 8px 30px rgba(2,6,23,0.6);
 
+  --avatar: white;
   --header-bg: rgba(19,19,19,0.92);
   --about-bg: rgb(12,12,12);
   --about-text: #ffffff;
@@ -584,143 +617,4 @@ button * ,
 :focus:not(:focus-visible) {
   /* skrýt pouze nepřirozené outline pro myš, ale zachovat pro keyboard */
   outline: none !important;
-}
-/* Social icons (fit to your existing token system) */
-.contact-info .socials {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-
-/* unify social link appearance */
-.contact-info .social-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: var(--contact-link-color);
-  text-decoration: none;
-  padding: 6px;
-  border-radius: 8px;
-  transition: color .15s ease, background .12s ease, transform .06s ease;
-}
-
-/* size and color for SVG icons (inherit color) */
-.contact-info .social-link svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-  color: inherit;
-  flex-shrink: 0;
-}
-
-/* hover/focus states */
-.contact-info .social-link:hover,
-.contact-info .social-link:focus {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-/* visible focus for keyboard users */
-.contact-info .social-link:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  outline-offset: 3px;
-  border-radius: 8px;
-}
-
-/* hide visible text but keep it for screen readers (if you want only icons visible) */
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-/* optional: spacing on mobile */
-@media (max-width:700px){
-  .contact-info .socials { gap: 10px; }
-}
-
-/* ======================
-   Hamburger / mobile nav styles
-   (added to the file as requested)
-   ====================== */
-@media (max-width:900px) {
-
-  /* show nav-toggle button on mobile */
-  .nav-toggle {
-    display: inline-block;
-    padding: 8px 10px;
-    font-size: 1.1rem;
-    line-height: 1;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    color: var(--text);
-    border-radius: 8px;
-  }
-
-  /* nav becomes a dropdown under the header */
-  .site-header .nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--header-bg);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    transform-origin: top center;
-    transform: translateY(-6px) scaleY(0.98);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform .18s ease, opacity .12s ease;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    box-shadow: 0 8px 24px rgba(2,6,23,0.06);
-    z-index: 9998;
-    padding: 8px;
-    border-top: 1px solid rgba(15,23,42,0.04);
-  }
-
-  /* visible when open (JS toggles .open on nav) */
-  .site-header .nav.open {
-    transform: translateY(0) scaleY(1);
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* nav links stacked full width */
-  .site-header .nav a {
-    display: block;
-    padding: 12px 16px;
-    color: var(--text);
-    background: transparent;
-    text-decoration: none;
-    border-radius: 8px;
-  }
-  .site-header .nav a:hover,
-  .site-header .nav a:focus {
-    background: rgba(37,99,235,0.06);
-    color: var(--text);
-    outline: none;
-  }
-
-  /* ensure header-controls (toggle + theme) stay visible on the right */
-  .header-controls { gap: 6px; align-items:center; }
-
-  /* reduce nav gap for tight screens */
-  .site-header .nav { gap: 6px; }
-
-  /* make the brand and toggle inline and aligned */
-  .brand { display: inline-block; }
 }
