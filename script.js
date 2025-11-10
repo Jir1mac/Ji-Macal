@@ -252,3 +252,255 @@ window.addEventListener('load', () => {
     }, 120);
   }
 });
+// Modern scroll reveal — FIX for "grey band" issue.
+// Key change: animate inner content (.container / .project-card / h2) instead of the <section> element,
+// so section background remains visible while content fades in.
+
+(function () {
+  'use strict';
+
+  const DEBUG = false; 
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const STAGGER_STEP = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sr-stagger-step')) || 72;
+  const ROOT_MARGIN = '0px 0px -30% 0px';
+  const THRESHOLD = 0.06;
+
+  function log(...args){ if (DEBUG) console.log('[sr]', ...args); }
+
+  function tagSectionContent(section) {
+    if (!(section instanceof Element)) return null;
+    const container = section.querySelector('.container');
+    if (container) {
+      if (!container.classList.contains('animate-on-scroll')) container.classList.add('animate-on-scroll');
+      return container;
+    }
+    if (!section.classList.contains('animate-on-scroll')) section.classList.add('animate-on-scroll');
+    return section;
+  }
+
+  function autoTag() {
+    document.querySelectorAll('section.animate-on-scroll').forEach(sec => {
+      const container = sec.querySelector('.container');
+      if (container) {
+        sec.classList.remove('animate-on-scroll');
+        if (!container.classList.contains('animate-on-scroll')) container.classList.add('animate-on-scroll');
+        log('moved animate-on-scroll from <section> to .container for', sec);
+      }
+    });
+
+    document.querySelectorAll('section').forEach(sec => {
+      tagSectionContent(sec);
+    });
+
+    document.querySelectorAll('h2').forEach(h => {
+      if (!h.classList.contains('animate-on-scroll')) h.classList.add('animate-on-scroll', 'heading');
+    });
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      if (!card.classList.contains('animate-on-scroll')) card.classList.add('animate-on-scroll', 'card');
+    });
+
+    document.querySelectorAll('.projects-grid').forEach(grid => {
+      if (!grid.classList.contains('animate-on-scroll')) grid.classList.add('animate-on-scroll', 'stagger');
+    });
+
+    document.querySelectorAll('.contact-grid, .about-grid').forEach(el => {
+      if (!el.classList.contains('animate-on-scroll')) el.classList.add('animate-on-scroll');
+    });
+
+    log('autoTag complete');
+  }
+
+  if (prefersReduced) {
+    document.addEventListener('DOMContentLoaded', () => {
+      autoTag();
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        el.classList.add('in-view');
+        if (el.classList.contains('stagger')) {
+          Array.from(el.children).forEach(child => child.classList.add('in-view'));
+        }
+      });
+      log('Reduced motion: revealed all immediately');
+    });
+    return;
+  }
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('stagger')) {
+        Array.from(el.children).forEach((child, i) => {
+          if (!(child instanceof Element)) return;
+          const delay = i * STAGGER_STEP;
+          child.style.setProperty('--sr-delay', `${delay}ms`);
+          if (!child.classList.contains('animate-on-scroll')) child.classList.add('animate-on-scroll');
+          requestAnimationFrame(() => child.classList.add('in-view'));
+        });
+        el.classList.add('in-view');
+      } else {
+        el.classList.add('in-view');
+      }
+
+      const once = el.dataset.once !== 'false';
+      if (once) obs.unobserve(el);
+      log('revealed', el);
+    });
+  }, { root: null, rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    autoTag();
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => io.observe(el));
+    log('observing', document.querySelectorAll('.animate-on-scroll').length);
+  });
+
+  const mo = new MutationObserver(muts => {
+    muts.forEach(m => {
+      m.addedNodes && m.addedNodes.forEach(node => {
+        if (!(node instanceof Element)) return;
+        if (node.matches && node.matches('section')) {
+          const content = tagSectionContent(node);
+          if (content) io.observe(content);
+          log('observing new section content', content);
+        }
+        node.querySelectorAll && node.querySelectorAll('section, h2, .project-card, .projects-grid, .contact-grid, .about-grid').forEach(n => {
+          if (!n.classList.contains('animate-on-scroll')) {
+            if (n.matches('h2')) n.classList.add('animate-on-scroll','heading');
+            else if (n.matches('.project-card')) n.classList.add('animate-on-scroll','card');
+            else if (n.matches('.projects-grid')) n.classList.add('animate-on-scroll','stagger');
+            else n.classList.add('animate-on-scroll');
+          }
+          io.observe(n);
+          log('observing added node', n);
+        });
+      });
+    });
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+
+})();
+(function () {
+  'use strict';
+
+  const DEBUG = false;
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const STAGGER_STEP = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sr-stagger-step')) || 40;
+  const ROOT_MARGIN = '0px 0px -30% 0px';
+  const THRESHOLD = 0.06;
+
+  function log(...args){ if (DEBUG) console.log('[sr]', ...args); }
+
+  function tagSectionContent(section) {
+    if (!(section instanceof Element)) return null;
+    const container = section.querySelector('.container');
+    if (container) {
+      if (!container.classList.contains('animate-on-scroll')) container.classList.add('animate-on-scroll');
+      return container;
+    }
+    if (!section.classList.contains('animate-on-scroll')) section.classList.add('animate-on-scroll');
+    return section;
+  }
+
+  function autoTag() {
+    document.querySelectorAll('section.animate-on-scroll').forEach(sec => {
+      const container = sec.querySelector('.container');
+      if (container) {
+        sec.classList.remove('animate-on-scroll');
+        if (!container.classList.contains('animate-on-scroll')) container.classList.add('animate-on-scroll');
+        log('moved animate-on-scroll from section to container', sec);
+      }
+    });
+
+    document.querySelectorAll('section').forEach(sec => tagSectionContent(sec));
+
+    document.querySelectorAll('h2').forEach(h => {
+      if (!h.classList.contains('animate-on-scroll')) h.classList.add('animate-on-scroll','heading');
+    });
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      if (!card.classList.contains('animate-on-scroll')) card.classList.add('animate-on-scroll','card');
+    });
+
+    document.querySelectorAll('.projects-grid').forEach(grid => {
+      if (!grid.classList.contains('animate-on-scroll')) grid.classList.add('animate-on-scroll','stagger');
+    });
+
+    document.querySelectorAll('.contact-grid, .about-grid').forEach(el => {
+      if (!el.classList.contains('animate-on-scroll')) el.classList.add('animate-on-scroll');
+    });
+
+    log('autoTag done');
+  }
+
+  if (prefersReduced) {
+    document.addEventListener('DOMContentLoaded', () => {
+      autoTag();
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        el.classList.add('in-view');
+        if (el.classList.contains('stagger')) {
+          Array.from(el.children).forEach(child => child.classList.add('in-view'));
+        }
+      });
+      log('reduced-motion: revealed all');
+    });
+    return;
+  }
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('stagger')) {
+        Array.from(el.children).forEach((child, i) => {
+          if (!(child instanceof Element)) return;
+          const delay = i * STAGGER_STEP;
+          child.style.setProperty('--sr-delay', `${delay}ms`);
+          if (!child.classList.contains('animate-on-scroll')) child.classList.add('animate-on-scroll');
+          // ensure delay is honored before adding in-view
+          requestAnimationFrame(() => child.classList.add('in-view'));
+        });
+        el.classList.add('in-view');
+      } else {
+        el.classList.add('in-view');
+      }
+
+      const once = el.dataset.once !== 'false';
+      if (once) obs.unobserve(el);
+      log('revealed', el);
+    });
+  }, { root: null, rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    autoTag();
+    document.querySelectorAll('.animate-on-scroll').forEach(el => io.observe(el));
+    log('observing', document.querySelectorAll('.animate-on-scroll').length);
+  });
+
+  const mo = new MutationObserver(muts => {
+    muts.forEach(m => {
+      m.addedNodes && m.addedNodes.forEach(node => {
+        if (!(node instanceof Element)) return;
+        if (node.matches && node.matches('section')) {
+          const content = tagSectionContent(node);
+          if (content) io.observe(content);
+          log('observing new section content', content);
+        }
+        node.querySelectorAll && node.querySelectorAll('section, h2, .project-card, .projects-grid, .contact-grid, .about-grid').forEach(n => {
+          if (!n.classList.contains('animate-on-scroll')) {
+            if (n.matches('h2')) n.classList.add('animate-on-scroll','heading');
+            else if (n.matches('.project-card')) n.classList.add('animate-on-scroll','card');
+            else if (n.matches('.projects-grid')) n.classList.add('animate-on-scroll','stagger');
+            else n.classList.add('animate-on-scroll');
+          }
+          io.observe(n);
+          log('observing added descendant', n);
+        });
+      });
+    });
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+
+})();
