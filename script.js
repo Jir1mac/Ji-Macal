@@ -470,3 +470,47 @@ window.addEventListener('load', () => {
   window.addEventListener('load', updateParallax);
 
 })();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Email Modal Functionality
+// ═══════════════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  const emailCard = document.getElementById('email-card');
+  const emailModal = document.getElementById('email-modal');
+  const closeModal = document.querySelector('.close-modal');
+
+  if (emailCard && emailModal) {
+    emailCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      emailModal.style.display = 'flex';
+      setTimeout(() => emailModal.classList.add('show'), 10);
+    });
+  }
+
+  if (closeModal && emailModal) {
+    closeModal.addEventListener('click', () => {
+      emailModal.classList.remove('show');
+      setTimeout(() => emailModal.style.display = 'none', 300);
+    });
+  }
+
+  if (emailModal) {
+    emailModal.addEventListener('click', (e) => {
+      if (e.target === emailModal) {
+        emailModal.classList.remove('show');
+        setTimeout(() => emailModal.style.display = 'none', 300);
+      }
+    });
+  }
+
+  // Remove focus from links after click to prevent persistent underlines
+  document.addEventListener('click', (e) => {
+    if (e.target.matches('a') || e.target.closest('a')) {
+      const link = e.target.matches('a') ? e.target : e.target.closest('a');
+      // Remove focus after a short delay to allow the click to register
+      setTimeout(() => {
+        link.blur();
+      }, 100);
+    }
+  });
+});
