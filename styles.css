@@ -1,3 +1,6 @@
+.projects-grid > .project-card {
+  transition: transform 0.16s cubic-bezier(.2,.9,.2,1) !important;
+}
 :root{
   --bg: #ffffff;
   --card: #ffffff;
@@ -269,7 +272,7 @@ font-feature-settings: "liga" 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer; 
+  cursor: pointer !important;
   -webkit-tap-highlight-color: transparent;
   position: relative;
   transition: background .25s ease, border-color .25s ease;
@@ -287,6 +290,7 @@ font-feature-settings: "liga" 1;
   justify-content:center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform .18s ease, background .18s ease;
+  pointer-events: none;
 }
 
 
@@ -849,18 +853,14 @@ h2{ margin-top:0; }
   overflow: hidden;
   min-width: 0;
   height: 100%;
-  transition: box-shadow 0.18s, transform 0.18s;
   position: relative;
+  transition: transform 0.16s cubic-bezier(.2,.9,.2,1);
 }
 .project-card:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
-  transform: translateY(-4px) scale(1.01);
-}
-}
-.project-card:hover{
-  transform: translateY(-8px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  transform: translateY(-10px) !important;
   border-color: rgba(0,0,0,0.15);
+  transition: transform 0.16s cubic-bezier(.2,.9,.2,1);
 }
 
 #contact {
@@ -999,10 +999,6 @@ h2{ margin-top:0; }
   display: block;
   transition: filter 0.2s, transform 0.2s;
 }
-.project-card:hover .project-image {
-  filter: brightness(0.93) blur(1px);
-  transform: scale(1.03);
-}
 .project-content {
   padding: 1.1rem 0 0 0;
   display: flex;
@@ -1013,22 +1009,22 @@ h2{ margin-top:0; }
   font-size: 1.18rem;
   font-weight: 800;
   margin: 0.5rem 0 0.3rem 0;
-  color: #fff;
+  color: #18181b;
   letter-spacing: -0.5px;
 }
+.dark .project-title {
+  color: #fff;
+}
 .project-desc {
-  color: #cfcfcf;
+  color: #444;
   font-size: 1.01rem;
   margin-bottom: 0.7rem;
   line-height: 1.6;
   font-weight: 400;
   text-align: left;
 }
-  color: var(--contact-input-text);
-  font:inherit;
-  transition: border-color .2s ease;
-  outline: none;
-  box-shadow: none;
+.dark .project-desc {
+  color: #cfcfcf;
 }
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
@@ -1321,10 +1317,6 @@ input[type="password"],
 @media (prefers-reduced-motion: reduce){
   * { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Modern Scroll Reveal Animation System
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
   --sr-offset: 20px;
