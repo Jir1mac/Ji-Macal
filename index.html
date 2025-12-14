@@ -18,7 +18,7 @@
       <nav class="nav" id="nav" role="navigation" aria-label="Hlavní navigace">
         <a href="#home">Domů</a>
         <a href="#about">O mně</a>
-        <a href="#projects">Projekty</a>
+        <a href="projekty.html">Projekty</a>
         <a href="#contact">Kontakt</a>
       </nav>
 
@@ -44,7 +44,7 @@
             <h1 class="hero-text2">Jiří Macal</h1>
           <p class="lead">Jsem webový vývojář a designer zaměřený na moderní, responzivní a přístupné weby, doplněné o kvalitní počítačovou grafiku a promyšlenou vizuální identitu.</p>
           <div class="hero-cta">
-            <a class="btn" href="#projects">Moje projekty</a>
+            <a class="btn" href="projekty.html">Moje projekty</a>
             <a class="btn btn-outline" href="#contact">Kontaktujte mě</a>
           </div>
         </div>
@@ -63,6 +63,7 @@
       </div>
     </section>
 
+    <script src="script-home-karty.js"></script>
     <section id="about" class="section">
       <div class="container">
         <h2>O mně</h2>
@@ -91,35 +92,56 @@ ideálně v prostředí, kde má práce skutečný dopad.</p>
 
     <section id="projects" class="section alt">
       <div class="container">
-        <h2>Projekty</h2>
+        <h2 style="display: flex; align-items: center; gap: 0.5em;">
+          <a href="projekty.html" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 0.3em;">
+            <span class="projekty-anim-underline" style="position: relative; display: inline-block;">Projekty
+              <span class="projekty-anim-underline-bar"></span>
+            </span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </h2>
         <div class="projects-grid">
           <article class="project-card">
-            <h3>PGV - beta</h3>
-            <p>Projekt PGV jsem vytvořil jako moderní webovou prezentaci zaměřenou na paragliding a komunitní obsah. Web je postaven pomocí HTML, CSS, JavaScriptu a frameworku Next.js a využívá databázi pro správu dat. Navrhl jsem ho tak, aby byl snadno ovladatelný pro vlastníka, s přehledným systémem správy obsahu, responzivním designem a čistým, moderním vzhledem.</p>
-            <div class="card-links">
-              <a href="https://pgv-five.vercel.app/" target="_blank" rel="noreferrer">
-                PGV
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="external-link-icon">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+            <div class="project-image-wrapper">
+              <img class="project-image" src="4zš_Most.png" alt="Náhled Firemní prezentace" loading="lazy">
+              <div class="project-label-overlay inprogress">Nevydáno</div>
+            </div>
+            <div class="project-content">
+              <div class="project-header">
+                <span class="project-date"></span>
+              </div>
+              <h3 class="project-title">Rozsáhlý web pro základní školu</h3>
+              <div class="project-desc">Web poskytuje přehledné informace pro žáky, rodiče i veřejnost. Nabízí novinky ze školy, důležité dokumenty, informace o výuce, akcích a kontaktech v jednoduchém a srozumitelném rozhraní.</div>
             </div>
           </article>
-
           <article class="project-card">
-            <h3>Dokran s.r.o. - beta</h3>
-            <p>Tento projekt jsem vytvořil jako moderní firemní web pro prezentaci elektroinstalačních služeb. Byl postaven pomocí HTML, CSS a JavaScriptu. Důraz jsem kladl na responzivní design, rychlé načítání a čistý, profesionální vzhled.</p>
-            <div class="card-links">
-              <a href="https://web-alpha-lac.vercel.app/" target="_blank" rel="noreferrer">
-                Dokran s.r.o
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="external-link-icon">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+            <div class="project-image-wrapper">
+              <img class="project-image" src="K.png" alt="Náhled JSON to CSV" loading="lazy">
+              <div class="project-label-overlay release">VYDÁNO</div>
+            </div>
+            <div class="project-content">
+              <div class="project-header">
+                <span class="project-date">2025-14-11</span>
+              </div>
+              <h3 class="project-title">K srdci klíč</h3>
+              <div class="project-desc">Web využívá HTML, CSS a JavaScript, je nasazený na platformě Vercel a podporuje překlad do 4 jazyků. Celé řešení je navržené tak, aby bylo snadno rozšiřitelné a dlouhodobě udržitelné.</div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-image-wrapper">
+              <img class="project-image" src="JM_playground.png" alt="Náhled Dashboard App" loading="lazy">
+              <div class="project-label-overlay beta">VYDÁNO</div>
+            </div>
+            <div class="project-content">
+              <div class="project-header">
+                <span class="project-date">2025-20-11</span>
+              </div>
+              <h3 class="project-title">Web s hrami</h3>
+              <div class="project-desc">Jednoduché hry naprogramované v JavaScriptu pro zábavu a relaxaci. Například tetris nebo pong. Skoro <br>1 500 řádků kódu z toho většina v JavaScriptu.</div>
             </div>
           </article>
         </div>
