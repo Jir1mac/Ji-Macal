@@ -31,8 +31,8 @@ a:hover .projekty-anim-underline-bar {
   transition: transform 0.16s cubic-bezier(.2,.9,.2,1) !important;
 }
 :root{
-  --bg: #ffffff;
-  --card: #ffffff;
+  --bg: #eeeeee;
+  --card: #eeeeee;
   --text: #000000;
   --muted: #666666;
   --accent: #000000;
@@ -47,25 +47,25 @@ a:hover .projekty-anim-underline-bar {
   --header-h: 72px; 
   --avatar: #000000;
 
-  --about-bg: #fafafa;
+  --about-bg: #ececec;
   --about-text: #000000;
-  --about-card-bg: #ffffff;
+  --about-card-bg: #ececec;
   --about-card-border: rgba(0,0,0,0.08);
 
-  --projects-bg: #ffffff;
+  --projects-bg: #e3e1e1;
 
-  --contact-bg: #fafafa; 
+  --contact-bg: #ececec; 
   --contact-text: var(--text);
   --contact-muted: var(--muted);
 
-  --contact-card-bg: #ffffff;
+  --contact-card-bg: #ececec;
   --contact-card-border: rgba(0,0,0,0.08);
   --contact-card-radius: 2px;
   --contact-card-padding: 48px;
   --contact-card-max-width: 980px;
   --contact-card-shadow: 0 1px 3px rgba(0,0,0,0.08);
 
-  --contact-input-bg: #ffffff;
+  --contact-input-bg: #ececec;
   --contact-input-border: #cccccc;
   --contact-input-text: var(--text);
   --contact-input-placeholder: #999999;
@@ -74,11 +74,11 @@ a:hover .projekty-anim-underline-bar {
   --contact-input-focus-shadow: 0 0 0 1px rgba(0,0,0,0.1);
 
   --contact-button-bg: #000000;
-  --contact-button-color: #ffffff;
+  --contact-button-color: #ececec;
   --contact-button-border-radius: 12px;
   --contact-button-padding: 12px 24px;
   --contact-button-hover-bg: #333333;
-  --contact-button-hover-color: #ffffff;
+  --contact-button-hover-color: #ececec;
 
   --contact-link-color: #000000;
   --contact-info-bg: transparent;
