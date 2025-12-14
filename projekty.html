@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekty</title>
+    <link rel="icon" type="image/x-icon" href="JM.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+        <header class="site-header" role="banner">
+            <div class="container header-inner">
+                <a class="brand" href="index.html">Jiří Macal</a>
+
+                <nav class="nav" id="nav" role="navigation" aria-label="Hlavní navigace">
+                    <a href="index.html">Domů</a>
+                    <a href="index.html#about">O mně</a>
+                    <a href="projekty.html" class="active">Projekty</a>
+                    <a href="index.html#contact">Kontakt</a>
+                </nav>
+
+                <div class="header-controls">
+                    <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Přepnout motiv">
+                        <span class="knob" aria-hidden="true">
+                            <svg class="icon sun" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4V2M12 22v-2M4.22 4.22L2.81 2.81M21.19 21.19l-1.41-1.41M2 12H4M20 12h2M4.22 19.78l-1.41 1.41M21.19 2.81L19.78 4.22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6" /></svg>
+                            <svg class="icon moon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </button>
+
+                    <button id="nav-toggle" class="nav-toggle" aria-label="Otevřít menu" aria-expanded="false">☰</button>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section id="projects" class="section alt">
+                <div class="container">
+                    <h2>Moje projekty</h2>
+                    <p class="lead">Výběr webových projektů, které jsem vytvořil. Každý projekt má vlastní vizuální styl, technologie a zaměření. Klikněte na detail nebo demo pro více informací.</p>
+                    <div class="projects-grid">
+                        <article class="project-card animate-on-scroll card">
+                            <div class="project-image-wrapper">
+                                <img class="project-image" src="Portfolio.png" alt="Náhled Portfolio Web" loading="lazy">
+                                <div class="project-label-overlay release">RELEASE</div>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <span class="project-date">2025-08-28</span>
+                                </div>
+                                <h3 class="project-title">Portfolio Web</h3>
+                                <div class="project-desc">Moderní osobní portfolio s responzivním designem, tmavým režimem a animacemi. Vyniká čistotou a rychlostí.</div>
+                            </div>
+                        </article>
+                        <article class="project-card animate-on-scroll card">
+                            <div class="project-image-wrapper">
+                                <img class="project-image" src="PGV.png" alt="Náhled E-shop Platforma" loading="lazy">
+                                <div class="project-label-overlay release">RELEASE</div>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <span class="project-date">2025-09-14</span>
+                                </div>
+                                <h3 class="project-title">E-shop Platforma</h3>
+                                <div class="project-desc">Kompletní řešení pro online prodej s administrací, platební bránou a moderním UI/UX. Bezpečné a škálovatelné.</div>
+                            </div>
+                        </article>
+                        <article class="project-card animate-on-scroll card">
+                            <div class="project-image-wrapper">
+                                <img class="project-image" src="JM_playground.png" alt="Náhled Dashboard App" loading="lazy">
+                                <div class="project-label-overlay beta">BETA</div>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <span class="project-date">2025-10-20</span>
+                                </div>
+                                <h3 class="project-title">Dashboard App</h3>
+                                <div class="project-desc">Privátní dashboard pro správu klientů, faktur a projektů s AI funkcemi. Integrace OpenAI, realtime data.</div>
+                            </div>
+                        </article>
+                        <article class="project-card animate-on-scroll card">
+                            <div class="project-image-wrapper">
+                                <img class="project-image" src="4zš_Most.png" alt="Náhled Firemní prezentace" loading="lazy">
+                                <div class="project-label-overlay inprogress">IN PROGRESS</div>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <span class="project-date">Nevydáno</span>
+                                </div>
+                                <h3 class="project-title">Firemní prezentace</h3>
+                                <div class="project-desc">Webová prezentace pro firmu s důrazem na jednoduchost a rychlost. Optimalizováno pro SEO.</div>
+                            </div>
+                        </article>
+                        <article class="project-card animate-on-scroll card">
+                            <div class="project-image-wrapper">
+                                <img class="project-image" src="K.png" alt="Náhled JSON to CSV" loading="lazy">
+                                <div class="project-label-overlay release">RELEASE</div>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-header">
+                                    <span class="project-date">2025-09-28</span>
+                                </div>
+                                <h3 class="project-title">JSON to CSV</h3>
+                                <div class="project-desc">Webová utilita pro převod JSON dat do CSV s live editorem. Rychlé, intuitivní, open-source.</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+    <script src="script.js"></script>
+</body>
+</html>
