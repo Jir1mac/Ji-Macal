@@ -529,7 +529,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50000;
+  z-index: 100000;
   padding: 20px;
   backdrop-filter: blur(15px) saturate(120%);
   -webkit-backdrop-filter: blur(15px) saturate(120%);
@@ -538,10 +538,10 @@ main {
 }
 
 .email-modal-content {
-  background: rgba(248, 248, 250, 0.95);
-  border-radius: 28px;
-  padding: 2.5rem;
-  max-width: 520px;
+  background: rgba(248, 248, 250, 0.98);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 640px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -645,14 +645,63 @@ main {
 .email-modal .contact-form textarea {
   width: 100%;
   margin-top: 0.5rem;
-  border-radius: 16px !important;
-  transition: all 0.3s ease;
+  padding: 12px 14px;
+  border-radius: 12px !important;
+  transition: all 0.22s ease;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.9);
+  color: var(--text);
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 .email-modal .contact-form input:focus,
 .email-modal .contact-form textarea:focus {
-  transform: scale(1.01);
-  border-radius: 18px !important;
+  transform: translateY(-2px);
+  border-radius: 12px !important;
+  outline: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.email-modal .contact-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.email-modal .contact-form ::placeholder {
+  color: rgba(0,0,0,0.45);
+}
+
+.email-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.email-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
+}
+
+body.modal-open, html.modal-open {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Make name/email inputs single-line */
+.email-modal .contact-form input[type="text"],
+.email-modal .contact-form input[type="email"],
+.email-modal .contact-form input[type="tel"] {
+  height: 44px;
+  max-height: 44px;
+  line-height: 1.2;
+  padding: 10px 12px;
+}
+
+@media (max-width: 600px) {
+  .email-modal .contact-form input[type="text"],
+  .email-modal .contact-form input[type="email"],
+  .email-modal .contact-form input[type="tel"] {
+    height: 40px;
+    max-height: 40px;
+  }
 }
 
 .email-modal .form-actions {
@@ -1558,4 +1607,8 @@ a:active,
   background: #ffffff;
   color: #000000;
   transform: translateY(-2px);
+}
+
+.email-modal-content {
+  z-index: 100001;
 }

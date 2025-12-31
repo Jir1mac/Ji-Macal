@@ -213,49 +213,7 @@ ideálně v prostředí, kde má práce skutečný dopad.</p>
 
         </div>
 
-        <div id="email-modal" class="email-modal" style="display: none;">
-          <div class="email-modal-content">
-            <div class="email-modal-header">
-              <h3>Napište mi email</h3>
-              <button class="close-modal" id="close-email-modal">&times;</button>
-            </div>
-            
-            <form id="contact-form" class="contact-form"
-                  action="https://formspree.io/f/xeovjpov"
-                  method="POST"
-                  novalidate>
-              <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-              <input type="hidden" name="_subject" value="Nová zpráva z webu Jiří Macal">
-              <input type="hidden" name="_captcha" value="false">
-
-              <label>
-                Jméno
-                <input type="text" name="name" id="cf-name" required placeholder="Adam Novák" />
-              </label>
-
-              <label>
-                Email
-                <input type="email" name="_replyto" id="cf-email" required placeholder="email@domena.cz" />
-              </label>
-
-              <label>
-                Zpráva
-                <textarea name="message" id="cf-message" rows="6" required placeholder="Napište mi..."></textarea>
-              </label>
-
-              <div class="form-actions">
-                <button type="submit" class="btn" id="cf-submit">Odeslat</button>
-                <button type="reset" class="btn btn-outline">Vyčistit</button>
-              </div>
-
-              <p id="form-status" class="form-status" aria-live="polite"></p>
-
-              <noscript>
-                <div class="noscript-warning">JavaScript je vypnutý — formulář bude odeslán standardním způsobem.</div>
-              </noscript>
-            </form>
-          </div>
-        </div>
+        <!-- email modal moved to document end to avoid stacking context issues -->
 
       </div>
     </section>
@@ -266,6 +224,51 @@ ideálně v prostředí, kde má práce skutečný dopad.</p>
       <p>© <span id="year"></span> Jiří Macal — Všechna práva vyhrazena.</p>
     </div>
   </footer>
+
+  <!-- moved email modal here so it's not inside other stacking contexts -->
+  <div id="email-modal" class="email-modal" style="display: none;">
+    <div class="email-modal-content">
+      <div class="email-modal-header">
+        <h3>Napište mi email</h3>
+        <button class="close-modal" id="close-email-modal">&times;</button>
+      </div>
+      
+      <form id="contact-form" class="contact-form"
+            action="https://formspree.io/f/xeovjpov"
+            method="POST"
+            novalidate>
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+        <input type="hidden" name="_subject" value="Nová zpráva z webu Jiří Macal">
+        <input type="hidden" name="_captcha" value="false">
+
+        <label>
+          Jméno
+          <input type="text" name="name" id="cf-name" required placeholder="Adam Novák" />
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="_replyto" id="cf-email" required placeholder="email@domena.cz" />
+        </label>
+
+        <label>
+          Zpráva
+          <textarea name="message" id="cf-message" rows="6" required placeholder="Napište mi..."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn" id="cf-submit">Odeslat</button>
+          <button type="reset" class="btn btn-outline">Vyčistit</button>
+        </div>
+
+        <p id="form-status" class="form-status" aria-live="polite"></p>
+
+        <noscript>
+          <div class="noscript-warning">JavaScript je vypnutý — formulář bude odeslán standardním způsobem.</div>
+        </noscript>
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

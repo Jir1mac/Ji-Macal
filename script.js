@@ -422,6 +422,8 @@ document.addEventListener('DOMContentLoaded', () => {
     emailCard.addEventListener('click', (e) => {
       e.preventDefault();
       emailModal.style.display = 'flex';
+      // prevent background scroll while modal is open
+      document.body.classList.add('modal-open');
       setTimeout(() => emailModal.classList.add('show'), 10);
     });
   }
@@ -429,7 +431,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeModal && emailModal) {
     closeModal.addEventListener('click', () => {
       emailModal.classList.remove('show');
-      setTimeout(() => emailModal.style.display = 'none', 300);
+      setTimeout(() => {
+        emailModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+      }, 300);
     });
   }
 
@@ -437,7 +442,10 @@ document.addEventListener('DOMContentLoaded', () => {
     emailModal.addEventListener('click', (e) => {
       if (e.target === emailModal) {
         emailModal.classList.remove('show');
-        setTimeout(() => emailModal.style.display = 'none', 300);
+        setTimeout(() => {
+          emailModal.style.display = 'none';
+          document.body.classList.remove('modal-open');
+        }, 300);
       }
     });
   }
