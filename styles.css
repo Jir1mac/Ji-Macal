@@ -1312,18 +1312,6 @@ a:active{ transform: translateY(1px); }
   z-index: 99999;
 }
 
-.site-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  border-radius: 2px;
-}
-
 .footer-inner{
   display: flex;
   flex-direction: column;
