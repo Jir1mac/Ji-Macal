@@ -422,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
     emailCard.addEventListener('click', (e) => {
       e.preventDefault();
       emailModal.style.display = 'flex';
-      // prevent background scroll while modal is open
       document.body.classList.add('modal-open');
       setTimeout(() => emailModal.classList.add('show'), 10);
     });
